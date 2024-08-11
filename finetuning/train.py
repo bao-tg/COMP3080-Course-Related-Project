@@ -11,6 +11,8 @@ with open('corpus.jsonl', 'r') as f:
 # Create a list of texts from the corpus
 texts = [doc['text'] for doc in corpus]
 
+texts = texts[:1000]
+
 # Create a dataset from the list of texts
 dataset = Dataset.from_dict({"text": texts})
 
@@ -18,8 +20,16 @@ dataset = Dataset.from_dict({"text": texts})
 model = GPT2LMHeadModel.from_pretrained('gpt2')
 tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 
+# Set the pad_token to eos_token
+tokenizer.pad_token = tokenizer.eos_token
+
+# Tokenization function with labels
 def tokenize_function(examples):
-    return tokenizer(examples["text"], padding="max_length", truncation=True)
+    # Tokenize the text
+    tokens = tokenizer(examples["text"], padding="max_length", truncation=True)
+    # Use input IDs as labels (shifted)
+    tokens["labels"] = tokens["input_ids"].copy()
+    return tokens
 
 # Tokenize the dataset
 tokenized_datasets = dataset.map(tokenize_function, batched=True)
@@ -39,12 +49,11 @@ training_args = TrainingArguments(
     save_total_limit=2,
     gradient_accumulation_steps=2,  # Accumulate gradients to reduce memory footprint
     fp16=True,  # Enable mixed precision training for faster computations
-    evaluation_strategy="epoch",
+    eval_strategy="epoch",  # Updated from evaluation_strategy
     logging_dir="./logs",
     logging_steps=500,
     report_to="tensorboard",  # Enable TensorBoard logging
     dataloader_num_workers=4,  # Number of data loading workers
-    distributed_backend="nccl",  # Use NCCL as the backend for communication between GPUs
 )
 
 # Initialize the Trainer
