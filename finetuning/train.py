@@ -29,14 +29,22 @@ train_size = int(0.8 * len(tokenized_datasets))
 train_dataset = tokenized_datasets.select(range(train_size))
 eval_dataset = tokenized_datasets.select(range(train_size, len(tokenized_datasets)))
 
-# Set up training arguments
+# Set up training arguments for distributed training
 training_args = TrainingArguments(
     output_dir="./results",
     overwrite_output_dir=True,
     num_train_epochs=1,
-    per_device_train_batch_size=8,
+    per_device_train_batch_size=8,  # Batch size per GPU
     save_steps=10_000,
     save_total_limit=2,
+    gradient_accumulation_steps=2,  # Accumulate gradients to reduce memory footprint
+    fp16=True,  # Enable mixed precision training for faster computations
+    evaluation_strategy="epoch",
+    logging_dir="./logs",
+    logging_steps=500,
+    report_to="tensorboard",  # Enable TensorBoard logging
+    dataloader_num_workers=4,  # Number of data loading workers
+    distributed_backend="nccl",  # Use NCCL as the backend for communication between GPUs
 )
 
 # Initialize the Trainer
