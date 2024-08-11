@@ -1,9 +1,18 @@
-from datasets import load_dataset
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
-from transformers import Trainer, TrainingArguments
+import json
+from datasets import Dataset
+from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments
 
-# Load a dataset or use your own
-dataset = load_dataset('wikitext', 'wikitext-2-raw-v1')
+# Load the corpus.jsonl file
+corpus = []
+with open('corpus.jsonl', 'r') as f:
+    for line in f:
+        corpus.append(json.loads(line))
+
+# Create a list of texts from the corpus
+texts = [doc['text'] for doc in corpus]
+
+# Create a dataset from the list of texts
+dataset = Dataset.from_dict({"text": texts})
 
 # Load pre-trained model and tokenizer
 model = GPT2LMHeadModel.from_pretrained('gpt2')
@@ -12,8 +21,15 @@ tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
 def tokenize_function(examples):
     return tokenizer(examples["text"], padding="max_length", truncation=True)
 
+# Tokenize the dataset
 tokenized_datasets = dataset.map(tokenize_function, batched=True)
 
+# Split the dataset into training and evaluation sets
+train_size = int(0.8 * len(tokenized_datasets))
+train_dataset = tokenized_datasets.select(range(train_size))
+eval_dataset = tokenized_datasets.select(range(train_size, len(tokenized_datasets)))
+
+# Set up training arguments
 training_args = TrainingArguments(
     output_dir="./results",
     overwrite_output_dir=True,
@@ -23,15 +39,17 @@ training_args = TrainingArguments(
     save_total_limit=2,
 )
 
+# Initialize the Trainer
 trainer = Trainer(
     model=model,
     args=training_args,
-    train_dataset=tokenized_datasets["train"],
-    eval_dataset=tokenized_datasets["validation"],
+    train_dataset=train_dataset,
+    eval_dataset=eval_dataset,
 )
 
+# Fine-tune the model
 trainer.train()
 
+# Save the fine-tuned model
 model.save_pretrained("./fine_tuned_model")
 tokenizer.save_pretrained("./fine_tuned_model")
-
