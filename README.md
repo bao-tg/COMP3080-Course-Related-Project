@@ -28,4 +28,4 @@ This folder contains the scripts and data necessary for fine-tuning the chatbot 
 ## 4. References
 
 1. Dataset used for fine-tuning: [Hugging Face Dataset](https://huggingface.co/datasets/ArtifactAI/arxiv-beir-cs-ml-generated-queries/tree/main)
-2. Streamlit demo tutorial: [How to Build a Chatbot with Streamlit]([https://blog.streamlit.io/how-to-build-a-llama-2-chatbot/])
+2. Streamlit demo tutorial: [How to Build a Chatbot with Streamlit](https://blog.streamlit.io/how-to-build-a-llama-2-chatbot/)
