@@ -1,0 +1,4 @@
+streamlit>=1.26.0
+openai
+llama-index
+nltk
