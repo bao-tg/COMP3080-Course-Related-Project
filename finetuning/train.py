@@ -3,7 +3,7 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from transformers import Trainer, TrainingArguments
 
 # Load a dataset or use your own
-dataset = load_dataset('wikitext', 'wikitext-2-raw-v1')
+dataset = load_dataset("ArtifactAI/arxiv-beir-cs-ml-generated-queries", 'wikitext-2-raw-v1')
 
 # Load pre-trained model and tokenizer
 model = GPT2LMHeadModel.from_pretrained('gpt2')
