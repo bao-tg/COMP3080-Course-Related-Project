@@ -2,8 +2,6 @@ import json
 from datasets import Dataset
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments
 
-# Load a dataset or use your own
-dataset = load_dataset("ArtifactAI/arxiv-beir-cs-ml-generated-queries", 'wikitext-2-raw-v1')
 # Load the corpus.jsonl file
 corpus = []
 with open('corpus.jsonl', 'r') as f:
