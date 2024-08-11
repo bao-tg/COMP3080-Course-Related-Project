@@ -9,6 +9,8 @@ This repository contains the files for a demo chatbot application that can be ru
 pip install -r requirements.txt
 - To run the chatbot, use the following command:
 streamlit run chatbot.py
+- (Note that this config is used to finetune model in CECS server) To finetune the model, cd to the finetuning folder, use the following command: torchrun --nproc_per_node=6 --master_port=29500 train.py
+
 ## 2. Fine-tuning Folder
 
 This folder contains the scripts and data necessary for fine-tuning the chatbot model.
