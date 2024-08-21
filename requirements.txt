@@ -1,4 +1,7 @@
 streamlit
-torch
 transformers
-pytorch torchvision torchaudio cpuonly -c pytorch
+torch
+torchvision
+torchaudio
+cpuonly
+-c pytorch

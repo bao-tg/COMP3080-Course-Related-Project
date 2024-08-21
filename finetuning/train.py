@@ -2,7 +2,7 @@ import json
 from datasets import Dataset
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, Trainer, TrainingArguments
 
-# Load the corpus.jsonl file
+# # Load the corpus.jsonl file
 corpus = []
 with open('corpus.jsonl', 'r') as f:
     for line in f:
@@ -12,7 +12,7 @@ with open('corpus.jsonl', 'r') as f:
 texts = [doc['text'] for doc in corpus]
 
 # Limit the number of texts for faster training
-texts = texts[:1000]
+# texts = texts[:1000]
 
 # Create a dataset from the list of texts
 dataset = Dataset.from_dict({"text": texts})

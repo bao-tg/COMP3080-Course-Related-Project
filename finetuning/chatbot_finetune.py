@@ -1,6 +1,9 @@
 import streamlit as st
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, AutoTokenizer, AutoModelForCausalLM
 import torch
+from huggingface_hub import snapshot_download
+
+# snapshot_download(repo_id="meta-llama/Meta-Llama-3.1-8B-Instruct", ignore_patterns=["*.pth"])
 
 # App title
 st.set_page_config(page_title="🤖💬 VinUni's CS chatbot")
@@ -9,12 +12,12 @@ st.set_page_config(page_title="🤖💬 VinUni's CS chatbot")
 @st.cache_resource
 def load_model(model_name):
     if model_name == 'meta-llama/Meta-Llama-3.1-8B-Instruct':
-        model = AutoModelForCausalLM.from_pretrained(model_name, force_download=True)
-        tokenizer = AutoTokenizer.from_pretrained(model_name, force_download=True)
+        model = AutoModelForCausalLM.from_pretrained(model_name)
+        tokenizer = AutoTokenizer.from_pretrained(model_name)
         return model, tokenizer
 
-    tokenizer = GPT2Tokenizer.from_pretrained(model_name, force_download=True)
-    model = GPT2LMHeadModel.from_pretrained(model_name, force_download=True)
+    tokenizer = GPT2Tokenizer.from_pretrained(model_name)
+    model = GPT2LMHeadModel.from_pretrained(model_name)
     model.eval()
     return model, tokenizer
 # Sidebar settings
