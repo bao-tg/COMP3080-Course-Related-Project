@@ -5,4 +5,3 @@ torchvision
 torchaudio
 cpuonly
 huggingface_hub
--c pytorch
