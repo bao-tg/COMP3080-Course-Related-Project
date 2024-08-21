@@ -1,31 +1,62 @@
-# Chatbot Demonstration
+# Chatbot for Computer Science Students at VinUni
 
-## 1. Introduction
+This project develops a specialized chatbot to assist Computer Science students at VinUni. The chatbot leverages fine-tuned language models to provide accurate and useful responses to various academic queries.
 
-This repository contains the files for a demo chatbot application that can be run using Streamlit.
+## Getting Started
 
-### How to Install and Run
-- Install necessary packages using the command: 
-pip install -r requirements.txt
-- To run the chatbot, use the following command:
-streamlit run chatbot.py
-- (Note that this config is used to finetune model in CECS server) To finetune the model, cd to the finetuning folder, use the following command: torchrun --nproc_per_node=6 --master_port=29500 train.py
+These instructions will help you set up a copy of the project on your local machine for development and testing purposes.
 
-## 2. Fine-tuning Folder
+### Prerequisites
 
-This folder contains the scripts and data necessary for fine-tuning the chatbot model.
+- Git
+- Python 3.6+
+- pip
 
-### Contents
-- `chatbot_finetuning.py`: The user interface for interacting with the chatbot.
-- `train.py`: Contains the fine-tuning logic for the chatbot model.
-- `corpus.jsonl`: The dataset used for fine-tuning the model.
+### Installation
 
-## 3. Remarks
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/bao-tg/COMP3080-Course-Related-Project
+2. **Install Requirements**
+   ```bash
+   pip install -r requirements.txt
+3. **Navigate to the Main Directory**
+   ```bash
+   cd main
+4. **Run the chatbot**
+   ```bash
+   streamlit run chatbot.py
 
-- The fine-tuned model is available but not included in this repository due to its size and conflicts with the LFS package.
-- The user interface is currently under maintenance.
+### Finetuning the model
+To fine-tune the model with custom datasets:
+1. **Navigate to the Main Directory**
+   ```bash
+   cd main
+2. **Run the Fine-tuning script**
+   ```bash
+   torchrun --nproc_per_node=6 --master_port=29500 finetuning.py
 
-## 4. References
+### Load the fine-tuned model
+To use your fine-tuned model in the chatbot:
++ Modify the *`chatbot.py`* file and change the *`modelname`* variable to the path of your fine-tuned model.
 
-1. Dataset used for fine-tuning: [Hugging Face Dataset](https://huggingface.co/datasets/ArtifactAI/arxiv-beir-cs-ml-generated-queries/tree/main)
-2. Streamlit demo tutorial: [How to Build a Chatbot with Streamlit](https://blog.streamlit.io/how-to-build-a-llama-2-chatbot/)
+### Using the Llama-8b Model
+1. **Get Access Permission**
+Request access at Meta-Llama 3.1-8B Instruct.
+2. **Login to Hugging Face Hub**
+   Use your Hugging Face key to authenticate
+   ```bash
+   huggingface-cli login
+3. **Run the Chatbot with the Llama-8b Model**
+Select the Llama-8b model in the interface after running chatbot.py.
+
+## Built With
+
+* [Streamlit](https://streamlit.app/) - UI and Deployment
+* [Hugging Face](https://huggingface.co/) - LLMs Model Handling
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+
