@@ -11,6 +11,7 @@ with open('corpus.jsonl', 'r') as f:
 # Create a list of texts from the corpus
 texts = [doc['text'] for doc in corpus]
 
+# Limit the number of texts for faster training
 texts = texts[:1000]
 
 # Create a dataset from the list of texts

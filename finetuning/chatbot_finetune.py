@@ -3,24 +3,26 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer, AutoTokenizer, AutoMode
 import torch
 
 # App title
-st.set_page_config(page_title="🤖💬 GPT-2 Chatbot")
+st.set_page_config(page_title="🤖💬 VinUni's CS chatbot")
 
-# Load GPT-2 model and tokenizer
+# Load the model and tokenizer
 @st.cache_resource
 def load_model(model_name):
     if model_name == 'meta-llama/Meta-Llama-3.1-8B-Instruct':
-        model = AutoModelForCausalLM.from_pretrained(model_name)
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = AutoModelForCausalLM.from_pretrained(model_name, force_download=True)
+        tokenizer = AutoTokenizer.from_pretrained(model_name, force_download=True)
         return model, tokenizer
-    tokenizer = GPT2Tokenizer.from_pretrained(model_name)
-    model = GPT2LMHeadModel.from_pretrained(model_name)
+
+    tokenizer = GPT2Tokenizer.from_pretrained(model_name, force_download=True)
+    model = GPT2LMHeadModel.from_pretrained(model_name, force_download=True)
     model.eval()
     return model, tokenizer
 # Sidebar settings
+
 with st.sidebar:
-    st.title('🤖💬 GPT-2 Chatbot')
+    st.title("🤖💬 VinUni's CS chatbot")
     st.subheader('Model selection')
-    model_name = st.selectbox('Choose a GPT-2 model', ['gpt2', 'gpt2-medium', 'gpt2-large', 'gpt2-xl', 'meta-llama/Meta-Llama-3.1-8B-Instruct'])
+    model_name = st.selectbox('Choose a model', ['gpt2', 'gpt2-medium', 'gpt2-large', 'gpt2-xl', 'meta-llama/Meta-Llama-3.1-8B-Instruct'])
     model, tokenizer = load_model(model_name)
     
     st.subheader('Model parameters')
